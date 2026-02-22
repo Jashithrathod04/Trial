@@ -2,7 +2,7 @@ import time
 import streamlit.components.v1 as components
 
 # ==============================
-# CINEMATIC PAINT SPLASH SCREEN
+# FULL SCREEN SPLASH SCREEN
 # ==============================
 
 splash_html = """
@@ -14,7 +14,7 @@ splash_html = """
 body {
     margin: 0;
     overflow: hidden;
-    background: radial-gradient(circle at center, #2b1d13, #120b07);
+    background: linear-gradient(145deg, #1a120b, #3b2a1a);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,89 +22,46 @@ body {
     font-family: Georgia, serif;
 }
 
-/* Splash Container */
+/* Container */
 .splash-container {
     text-align: center;
-    position: relative;
-    z-index: 2;
+    color: #C6A75E;
+    animation: fadeIn 2s ease forwards;
 }
 
-/* Paint Stroke */
-.paint-stroke {
-    position: absolute;
-    top: 50%;
-    left: -40%;
-    width: 80%;
-    height: 80px;
-    background: linear-gradient(90deg, #C6A75E, #E0C27B, #C6A75E);
-    border-radius: 50px;
-    filter: blur(2px);
-    opacity: 0.85;
-    animation: paintSwipe 2.5s ease-out forwards;
-}
-
-/* Paint Drip */
-.paint-drip {
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    width: 8px;
-    height: 0;
-    background: #C6A75E;
-    border-radius: 4px;
-    animation: drip 2s ease-in forwards;
-    animation-delay: 1.5s;
-}
-
-/* Brush */
-.brush {
-    position: absolute;
-    top: 48%;
-    left: -15%;
-    font-size: 3rem;
-    animation: brushMove 2.5s ease-out forwards;
+/* Animated Brush Stroke Line */
+.brush-line {
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #C6A75E, #E0C27B, #C6A75E, transparent);
+    margin: 20px auto;
+    animation: drawLine 2.5s ease forwards;
 }
 
 /* Title */
 .title {
-    font-size: 3.2rem;
+    font-size: 3rem;
     letter-spacing: 2px;
-    color: #C6A75E;
     opacity: 0;
-    margin-top: 2rem;
-    animation: titleReveal 2s ease forwards;
-    animation-delay: 2s;
+    animation: titleReveal 3s ease forwards;
+    animation-delay: 1s;
 }
 
+/* Subtitle */
 .subtitle {
     font-size: 1rem;
+    margin-top: 1rem;
     color: #f5e6d3;
     opacity: 0;
-    margin-top: 1rem;
-    animation: fadeIn 2s ease forwards;
-    animation-delay: 2.5s;
+    animation: fadeIn 3s ease forwards;
+    animation-delay: 2s;
 }
 
 /* Animations */
 
-@keyframes brushMove {
-    0% { left: -15%; }
-    100% { left: 85%; }
-}
-
-@keyframes paintSwipe {
-    0% { left: -40%; }
-    100% { left: 110%; }
-}
-
-@keyframes drip {
-    0% { height: 0; opacity: 1; }
-    100% { height: 50px; opacity: 0.8; }
-}
-
-@keyframes titleReveal {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes drawLine {
+    0% { width: 0; }
+    100% { width: 60%; }
 }
 
 @keyframes fadeIn {
@@ -112,18 +69,20 @@ body {
     to { opacity: 1; }
 }
 
+@keyframes titleReveal {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
 </style>
 </head>
 <body>
 
 <div class="splash-container">
-    <div class="paint-stroke"></div>
-    <div class="paint-drip"></div>
-    <div class="brush">🖌️</div>
-
-    <div class="title">ArtRestorer AI</div>
+    <div class="title">🎨 ArtRestorer AI</div>
+    <div class="brush-line"></div>
     <div class="subtitle">
-        Restoring Cultural Heritage Through Intelligent Preservation
+        Preserving Cultural Heritage Through Artificial Intelligence
     </div>
 </div>
 
@@ -131,4 +90,11 @@ body {
 </html>
 """
 
+# Show splash
+if "splash_shown" not in st.session_state:
+    components.html(splash_html, height=800)
+    time.sleep(3)
+    st.session_state.splash_shown = True
+    st.rerun()
 
+st.empty()
