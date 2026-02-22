@@ -131,9 +131,4 @@ body {
 </html>
 """
 
-# Show splash once
-if "splash_shown" not in st.session_state:
-    components.html(splash_html, height=800)
-    time.sleep(3.5)
-    st.session_state.splash_shown = True
-    st.rerun()
+
