@@ -13,89 +13,146 @@ import pandas as pd
 if "page" not in st.session_state:
     st.session_state.page = "landing"
     
+import streamlit.components.v1 as components
+
 if st.session_state.page == "landing":
 
-    st.markdown("""
+    landing_html = """
+    <html>
+    <head>
     <style>
-    .hero-title {
-        font-size: 4rem;
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: #000000;
+        font-family: Georgia, serif;
+    }
+
+    /* PARTICLES BACKGROUND */
+    .particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, rgba(255,215,0,0.15) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: moveParticles 40s linear infinite;
+        z-index: 1;
+    }
+
+    @keyframes moveParticles {
+        from { background-position: 0 0; }
+        to { background-position: 500px 500px; }
+    }
+
+    /* CURTAINS */
+    .curtain-left, .curtain-right {
+        position: absolute;
+        top: 0;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(to bottom, #300000, #100000);
+        z-index: 3;
+        animation: openCurtain 3s forwards ease-in-out;
+    }
+
+    .curtain-left {
+        left: 0;
+        border-right: 5px solid #D4AF37;
+    }
+
+    .curtain-right {
+        right: 0;
+        border-left: 5px solid #D4AF37;
+        animation-delay: 0.2s;
+    }
+
+    @keyframes openCurtain {
+        to {
+            transform: translateX(-100%);
+        }
+    }
+
+    .curtain-right {
+        animation-name: openCurtainRight;
+    }
+
+    @keyframes openCurtainRight {
+        to {
+            transform: translateX(100%);
+        }
+    }
+
+    /* CENTER CONTENT */
+    .content {
+        position: relative;
+        z-index: 2;
         text-align: center;
+        top: 35%;
         color: #D4AF37;
-        font-family: 'Georgia', serif;
-        animation: glow 2s ease-in-out infinite alternate;
+        opacity: 0;
+        animation: fadeIn 3s forwards;
+        animation-delay: 2s;
     }
 
-    @keyframes glow {
-        from { text-shadow: 0 0 10px #8B6914; }
-        to { text-shadow: 0 0 25px #FFD700; }
+    @keyframes fadeIn {
+        to { opacity: 1; }
     }
 
-    .tagline {
-        text-align: center;
+    .title {
+        font-size: 4rem;
+        text-shadow: 0 0 15px #FFD700;
+    }
+
+    .subtitle {
         font-size: 1.5rem;
+        margin-top: 20px;
         color: #E6C97F;
-        margin-bottom: 40px;
     }
 
-    .feature-card {
-        background: rgba(20,20,20,0.85);
-        padding: 25px;
-        border-radius: 15px;
-        border: 1px solid #C6A75E;
-        text-align: center;
-        color: #F5DEB3;
-        transition: 0.3s ease;
+    /* PAINT SPLATTER */
+    .splash {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, #8B0000 30%, transparent 70%);
+        border-radius: 50%;
+        top: 20%;
+        left: 45%;
+        opacity: 0;
+        animation: splatter 2s forwards;
+        animation-delay: 1s;
+        z-index: 2;
     }
 
-    .feature-card:hover {
-        box-shadow: 0 0 20px #D4AF37;
-        transform: translateY(-5px);
+    @keyframes splatter {
+        0% { transform: scale(0.2); opacity: 0; }
+        70% { opacity: 1; }
+        100% { transform: scale(1.5); opacity: 0.6; }
     }
 
-    .divider {
-        height: 2px;
-        background: linear-gradient(to right, transparent, #D4AF37, transparent);
-        margin: 50px 0;
-    }
     </style>
-    """, unsafe_allow_html=True)
+    </head>
 
-    st.markdown('<div class="hero-title">Restora A.I</div>', unsafe_allow_html=True)
-    st.markdown('<div class="tagline">AI-Powered Cultural Heritage Restoration Assistant</div>', unsafe_allow_html=True)
+    <body>
 
-    col1, col2, col3 = st.columns(3)
+        <div class="particles"></div>
 
-    with col1:
-        st.markdown("""
-        <div class="feature-card">
-        <h3>🖼 AI Restoration Analysis</h3>
-        <p>Generate culturally sensitive, historically accurate restoration strategies using advanced generative AI models.</p>
+        <div class="curtain-left"></div>
+        <div class="curtain-right"></div>
+
+        <div class="splash"></div>
+
+        <div class="content">
+            <div class="title">Restora A.I</div>
+            <div class="subtitle">AI-Powered Cultural Heritage Restoration Assistant</div>
         </div>
-        """, unsafe_allow_html=True)
 
-    with col2:
-        st.markdown("""
-        <div class="feature-card">
-        <h3>🏛 Cultural Integrity Protection</h3>
-        <p>Preserve authenticity while restoring damaged artwork, monuments, and historical artifacts.</p>
-        </div>
-        """, unsafe_allow_html=True)
+    </body>
+    </html>
+    """
 
-    with col3:
-        st.markdown("""
-        <div class="feature-card">
-        <h3>🕓 Restoration Archive</h3>
-        <p>Maintain and analyze past restoration records with intelligent tracking and documentation.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
-
-    st.markdown(
-        "<h2 style='text-align:center; color:#D4AF37;'>Preserve the Past. Restore the Future.</h2>",
-        unsafe_allow_html=True
-    )
-
+    components.html(landing_html, height=800)
+    
     if st.button("Enter the Gallery"):
         st.session_state.page = "dashboard"
         st.rerun()
