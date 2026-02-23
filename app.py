@@ -5,98 +5,91 @@ import streamlit.components.v1 as components
 # FULL SCREEN SPLASH SCREEN
 # ==============================
 
-splash_html = """
-<!DOCTYPE html>
-<html>
-<head>
-<style>
+if st.session_state.page == "landing":
 
-body {
-    margin: 0;
-    overflow: hidden;
-    background: linear-gradient(145deg, #1a120b, #3b2a1a);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-family: Georgia, serif;
-}
+    st.markdown("""
+    <style>
+    .hero-title {
+        font-size: 4rem;
+        text-align: center;
+        color: #D4AF37;
+        font-family: 'Georgia', serif;
+        animation: glow 2s ease-in-out infinite alternate;
+    }
 
-/* Container */
-.splash-container {
-    text-align: center;
-    color: #C6A75E;
-    animation: fadeIn 2s ease forwards;
-}
+    @keyframes glow {
+        from { text-shadow: 0 0 10px #8B6914; }
+        to { text-shadow: 0 0 25px #FFD700; }
+    }
 
-/* Animated Brush Stroke Line */
-.brush-line {
-    width: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #C6A75E, #E0C27B, #C6A75E, transparent);
-    margin: 20px auto;
-    animation: drawLine 2.5s ease forwards;
-}
+    .tagline {
+        text-align: center;
+        font-size: 1.5rem;
+        color: #E6C97F;
+        margin-bottom: 40px;
+    }
 
-/* Title */
-.title {
-    font-size: 3rem;
-    letter-spacing: 2px;
-    opacity: 0;
-    animation: titleReveal 3s ease forwards;
-    animation-delay: 1s;
-}
+    .feature-card {
+        background: rgba(20,20,20,0.85);
+        padding: 25px;
+        border-radius: 15px;
+        border: 1px solid #C6A75E;
+        text-align: center;
+        color: #F5DEB3;
+        transition: 0.3s ease;
+    }
 
-/* Subtitle */
-.subtitle {
-    font-size: 1rem;
-    margin-top: 1rem;
-    color: #f5e6d3;
-    opacity: 0;
-    animation: fadeIn 3s ease forwards;
-    animation-delay: 2s;
-}
+    .feature-card:hover {
+        box-shadow: 0 0 20px #D4AF37;
+        transform: translateY(-5px);
+    }
 
-/* Animations */
+    .divider {
+        height: 2px;
+        background: linear-gradient(to right, transparent, #D4AF37, transparent);
+        margin: 50px 0;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
-@keyframes drawLine {
-    0% { width: 0; }
-    100% { width: 60%; }
-}
+    st.markdown('<div class="hero-title">Restora A.I</div>', unsafe_allow_html=True)
+    st.markdown('<div class="tagline">AI-Powered Cultural Heritage Restoration Assistant</div>', unsafe_allow_html=True)
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
+    col1, col2, col3 = st.columns(3)
 
-@keyframes titleReveal {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
+    with col1:
+        st.markdown("""
+        <div class="feature-card">
+        <h3>🖼 AI Restoration Analysis</h3>
+        <p>Generate culturally sensitive, historically accurate restoration strategies using advanced generative AI models.</p>
+        </div>
+        """, unsafe_allow_html=True)
 
-</style>
-</head>
-<body>
+    with col2:
+        st.markdown("""
+        <div class="feature-card">
+        <h3>🏛 Cultural Integrity Protection</h3>
+        <p>Preserve authenticity while restoring damaged artwork, monuments, and historical artifacts.</p>
+        </div>
+        """, unsafe_allow_html=True)
 
-<div class="splash-container">
-    <div class="title">🎨 ArtRestorer AI</div>
-    <div class="brush-line"></div>
-    <div class="subtitle">
-        Preserving Cultural Heritage Through Artificial Intelligence
-    </div>
-</div>
+    with col3:
+        st.markdown("""
+        <div class="feature-card">
+        <h3>🕓 Restoration Archive</h3>
+        <p>Maintain and analyze past restoration records with intelligent tracking and documentation.</p>
+        </div>
+        """, unsafe_allow_html=True)
 
-</body>
-</html>
-"""
+    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
-# Show splash
-components.html(splash_html, height=800)
+    st.markdown(
+        "<h2 style='text-align:center; color:#D4AF37;'>Preserve the Past. Restore the Future.</h2>",
+        unsafe_allow_html=True
+    )
 
-if "splash_shown" not in st.session_state:
-    components.html(splash_html, height=800)
-    time.sleep(3)
-    st.session_state.splash_shown = True
-    st.rerun()
+    if st.button("Enter the Gallery"):
+        st.session_state.page = "dashboard"
+        st.rerun()
 
-st.empty()
+    st.stop()
