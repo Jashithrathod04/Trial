@@ -19,6 +19,30 @@ st.set_page_config(
 )
 
 
+
+
+
+# ---------------- OUTPUT YELLOW BOX STYLE ----------------
+st.markdown("""
+<style>
+
+/* Yellow Output Box */
+.output-box {
+    background-color: #FFD54F;  /* Museum yellow */
+    padding: 30px;
+    border-radius: 20px;
+    margin-top: 25px;
+    box-shadow: 0px 6px 25px rgba(0,0,0,0.3);
+}
+
+/* Keep text dark */
+.output-box * {
+    color: #2c2c2c !important;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 # ---------------- YELLOW PROMPT BOX STYLE ----------------
 st.markdown("""
 <style>
@@ -401,8 +425,14 @@ elif st.session_state.page == "dashboard":
                             "max_output_tokens": 2048
                         }
                     )
-                st.markdown("### 🎨 AI Restoration Output")
+                st.markdown("""
+                <div class="output-box">
+                <h3>🎨 AI Restoration Output</h3>
+                """, unsafe_allow_html=True)
+                
                 st.markdown(response.text)
+                
+                st.markdown("</div>", unsafe_allow_html=True)
     
             
             
