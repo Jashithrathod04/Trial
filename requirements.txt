@@ -9,3 +9,8 @@ streamlit
 google-generativeai
 pandas
 requests
+streamlit
+pandas
+numpy
+plotly
+
